@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'User Name is required'],
-        trim: true
+        trim: true,
         minLength: 2,
         maxLength: 50,
     },
@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'User Email is required'],
         unique: [true, 'Email is unique'],
-        trim: true
+        trim: true,
         lowercase: true,
         match: [/\S+@\S+\.\S+/, 'Email is required'],
 
