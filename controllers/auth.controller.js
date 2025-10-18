@@ -14,7 +14,7 @@ export const signUp = async (req, res, next) => {
     try{
         // Logic to create a new user
 
-        const {name, email, password } = req.body;
+        const {name, email, password, role} = req.body;
 
         // Check if the user already exists
 
@@ -31,7 +31,7 @@ export const signUp = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUsers = await User.create([{name, email, password: hashedPassword}], {session})
+        const newUsers = await User.create([{name, email, password: hashedPassword, role}], {session})
 
         const token = jwt.sign({userId: newUsers[0]._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN} );
 
