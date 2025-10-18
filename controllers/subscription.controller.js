@@ -1,6 +1,6 @@
 import Subscription from '../models/subscription.model.js'
 import {workflowClient} from "../config/upstash.js";
-import {SERVER_URL} from "../config/env.js";
+import {LOCAL_URL, RENDER_URL} from "../config/env.js";
 import {checkAdminPermission, checkSubscriptionOwnership} from "../validations/validations.js";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween.js";
@@ -15,8 +15,12 @@ export const createSubscription = async (req, res, next) => {
             user: req.user._id}
         )
 
+        const BASE_URL = process.env.RENDER_URL
+            ? `${RENDER_URL}`
+            : `${LOCAL_URL}`
+
        const {workflowRunId} = await workflowClient.trigger({
-            url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
+            url: `${BASE_URL}/api/v1/workflows/subscription/reminder`,
 
             body: {
             subscriptionId: subscription.id,
