@@ -169,6 +169,18 @@ export const getAllSubscriptions = async (req, res, next) => {
 }
 
 
+export const deleteAllSubscriptions = async (req, res, next) => {
+    try {
+
+        const subscriptions = await Subscription.deleteMany({});
+
+        res.status(200).json({success: true, data: subscriptions})
+
+
+    } catch (e) {
+        next(e);
+    }
+}
 
 
 

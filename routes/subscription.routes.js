@@ -3,7 +3,7 @@ import authorize from "../middlewares/auth.middleware.js";
 import {
     createSubscription,
     deleteUserAllSubscriptions, getAllSubscriptions,
-    getUserAllSubscriptions, updateSubscription, deleteSubscription, getSubscription
+    getUserAllSubscriptions, updateSubscription, deleteSubscription, getSubscription, deleteAllSubscriptions
 
 } from "../controllers/subscription.controller.js";
 
@@ -16,6 +16,8 @@ subscriptionRouter.post("/", authorize, createSubscription);
 subscriptionRouter.get("/:id", authorize, getSubscription);
 
 subscriptionRouter.put("/:id", authorize, updateSubscription);
+
+subscriptionRouter.delete("/", authorize, deleteAllSubscriptions);
 
 subscriptionRouter.delete("/:id", authorize, deleteSubscription);
 
