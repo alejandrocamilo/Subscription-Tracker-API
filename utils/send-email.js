@@ -1,8 +1,9 @@
 import {emailTemplates} from "./email-template.js";
 import dayjs from "dayjs";
-import transporter, {accountEmail} from "../config/nodemailer.js";
+import { Resend } from "resend";
+import {RESEND_KEY} from "../config/env.js";
 
-const sendReminderEmail = async ({to, type , subscription}) => {
+const sendReminderEmail = async ({to, type, subscription}) => {
 
     if (!to || !type) throw new Error("Missing required parameters");
 
@@ -19,21 +20,26 @@ const sendReminderEmail = async ({to, type , subscription}) => {
         paymentMethod: subscription.paymentMethod,
     }
 
+
     const subject = template.generateSubject(mailInfo);
     const body = template.generateBody(mailInfo);
 
-    const mailOptions = {
-        from: accountEmail,
-        to: to,
-        subject: subject,
-        html: body,
-    }
 
-   transporter.sendMail(mailOptions, (error, info) => {
-        if (error) return console.log(`Error sending email ${error}`);
 
-        console.log("Email sent: ", info.response);
-    })
+    const resend = new Resend(RESEND_KEY);
+
+
+        const { data, error } = await resend.emails.send({
+            from: "Acme <info@subscriptiontracking.cloud>",
+            to: [to],
+            subject: subject,
+            html: body,
+        });
+
+        if (error){
+           return console.log(`Error sending email: ${error}`)
+        }
+
 }
 
 export default sendReminderEmail;
