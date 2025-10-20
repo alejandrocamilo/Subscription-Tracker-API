@@ -3,7 +3,7 @@
 export const checkAdminPermission = (req, res) => {
     if (req.user.role !== 'admin') {
 
-        return res.status(403).json({message: "Only the admin have permission to perform this action"});
+        return res.status(403).json({message: "Only the admin has permission to perform this action"});
     }
 }
 

@@ -176,6 +176,8 @@ export const getAllSubscriptions = async (req, res, next) => {
 export const deleteAllSubscriptions = async (req, res, next) => {
     try {
 
+        checkAdminPermission(req,  res)
+
         const subscriptions = await Subscription.deleteMany({});
 
         res.status(200).json({success: true, data: subscriptions})
